@@ -78,6 +78,19 @@ This platform was built following strict enterprise standards:
 - **WCAG 2.2 AA Compliant**: WAI-ARIA roles, high contrast support, full keyboard navigability.
 - **Security-First**: Input sanitization via `dompurify` (mocked), no `eval()`, no `dangerouslySetInnerHTML`.
 
+## Testing Suite
+
+The project includes a robust Vitest + React Testing Library suite located in `src/tests/`. It covers:
+- **Component Validation**: Ensuring critical UI renders.
+- **Integration Tests**: Verifying complex dashboards and AI engine interactions.
+- **Accessibility Tests**: Automated `axe-core` scans ensuring zero a11y violations on major views.
+
+To run the tests:
+```bash
+npm install -D jest-axe @types/jest-axe
+npm run test
+```
+
 ## License
 
 This project is intended as a demonstration of a highly polished, dashboard-driven web application.

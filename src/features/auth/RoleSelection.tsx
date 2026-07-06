@@ -37,31 +37,31 @@ export function RoleSelection() {
           </p>
         </div>
 
-        <div className="role-selection__grid" role="list" aria-label="Select your role">
+        <ul className="role-selection__grid" aria-label="Select your role">
           {ROLE_ORDER.map((roleKey) => {
             const config = ROLE_CONFIGS[roleKey];
             return (
-              <button
-                key={roleKey}
-                className="role-card"
-                onClick={() => selectRole(roleKey)}
-                role="listitem"
-                aria-label={`Sign in as ${config.label}`}
-              >
-                <div className="role-card__icon" style={{ color: config.color, background: `${config.color}15` }}>
-                  {ROLE_ICONS[roleKey]}
-                </div>
-                <div className="role-card__info">
-                  <h2 className="role-card__title">{config.label}</h2>
-                  <p className="role-card__desc">{config.description}</p>
-                </div>
-                <div className="role-card__arrow">
-                  <ArrowRight size={16} />
-                </div>
-              </button>
+              <li key={roleKey}>
+                <button
+                  className="role-card"
+                  onClick={() => selectRole(roleKey)}
+                  aria-label={`Sign in as ${config.label}`}
+                >
+                  <div className="role-card__icon" style={{ color: config.color, background: `${config.color}15` }}>
+                    {ROLE_ICONS[roleKey]}
+                  </div>
+                  <div className="role-card__info">
+                    <h2 className="role-card__title">{config.label}</h2>
+                    <p className="role-card__desc">{config.description}</p>
+                  </div>
+                  <div className="role-card__arrow">
+                    <ArrowRight size={16} />
+                  </div>
+                </button>
+              </li>
             );
           })}
-        </div>
+        </ul>
 
         <div className="role-selection__footer">
           <div className="role-selection__status">

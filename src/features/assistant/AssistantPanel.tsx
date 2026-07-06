@@ -57,7 +57,8 @@ export function AssistantPanel() {
 
   const sendMessage = useCallback(
     (text: string) => {
-      if (!role || !text.trim()) return;
+      const activeRole = role ?? 'operations';
+      if (!text.trim()) return;
 
       const sanitized = sanitizeInput(text, 1000);
       if (!sanitized) return;
@@ -75,7 +76,7 @@ export function AssistantPanel() {
 
       // Simulate AI processing delay
       setTimeout(() => {
-        const response = generateResponse(sanitized, role);
+        const response = generateResponse(sanitized, activeRole);
         setMessages((prev) => [...prev, response]);
         setIsTyping(false);
       }, 600 + Math.random() * 400);
