@@ -61,3 +61,42 @@ vi.mock('../hooks/useCrowdMetrics', () => ({
 vi.mock('../hooks/useIncidents', () => ({
   useIncidents: (activeOnly = false) => ({ incidents: activeOnly ? getActiveIncidents() : incidents, loading: false, error: null, refresh: vi.fn() })
 }));
+
+// Mock Firebase and AuthProvider
+vi.mock('firebase/app', () => ({
+  initializeApp: vi.fn(),
+}));
+
+vi.mock('firebase/auth', () => ({
+  getAuth: vi.fn(),
+  onAuthStateChanged: vi.fn(),
+  signInWithEmailAndPassword: vi.fn(),
+  signOut: vi.fn(),
+}));
+
+vi.mock('firebase/firestore', () => ({
+  getFirestore: vi.fn(),
+  doc: vi.fn(),
+  getDoc: vi.fn(),
+}));
+
+// Provide a mock useAuth so tests using it don't break
+vi.mock('../app/providers/AuthProvider', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual as any,
+    useAuth: () => ({
+      user: {
+        id: 'test-user',
+        name: 'Test User',
+        role: 'operations',
+        preferences: { theme: 'dark', reducedMotion: false, highContrast: false, fontSize: 'normal', accessibilityNeeds: ['none'] }
+      },
+      role: 'operations',
+      isAuthenticated: true,
+      isLoading: false,
+      logout: vi.fn(),
+      roleConfig: { label: 'Operations', color: '#6366f1' }
+    }),
+  };
+});

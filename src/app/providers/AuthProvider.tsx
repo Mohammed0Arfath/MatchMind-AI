@@ -1,4 +1,7 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { onAuthStateChanged, signOut, User as FirebaseUser } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../../config/firebase';
 import type { User, UserRole } from '../../types';
 import { ROLE_CONFIGS } from '../../types';
 
@@ -6,90 +9,73 @@ interface AuthContextType {
   user: User | null;
   role: UserRole | null;
   isAuthenticated: boolean;
-  selectRole: (role: UserRole) => void;
-  logout: () => void;
+  isLoading: boolean;
+  logout: () => Promise<void>;
   roleConfig: typeof ROLE_CONFIGS[UserRole] | null;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-const DEFAULT_USERS: Record<UserRole, User> = {
-  operations: {
-    id: 'ops-001',
-    name: 'Sarah Chen',
-    role: 'operations',
-    currentLocation: 'Control Room',
-    currentStadiumId: 'metlife',
-    preferences: {
-      theme: 'dark',
-      reducedMotion: false,
-      highContrast: false,
-      fontSize: 'normal',
-      accessibilityNeeds: ['none'],
-    },
-    zone: 'All Zones',
-    shift: '06:00 - 18:00',
-  },
-  security: {
-    id: 'sec-001',
-    name: 'James Rodriguez',
-    role: 'security',
-    currentLocation: 'Gate B',
-    currentStadiumId: 'metlife',
-    preferences: {
-      theme: 'dark',
-      reducedMotion: false,
-      highContrast: false,
-      fontSize: 'normal',
-      accessibilityNeeds: ['none'],
-    },
-    zone: 'North Stand',
-    shift: '14:00 - 22:00',
-  },
-  spectator: {
-    id: 'spec-001',
-    name: 'Alex Kim',
-    role: 'spectator',
-    currentLocation: 'Section 214',
-    currentStadiumId: 'metlife',
-    preferences: {
-      theme: 'dark',
-      reducedMotion: false,
-      highContrast: false,
-      fontSize: 'normal',
-      accessibilityNeeds: ['none'],
-    },
-    zone: null,
-    shift: null,
-  },
-  staff: {
-    id: 'staff-001',
-    name: 'Maria Lopez',
-    role: 'staff',
-    currentLocation: 'Operations Hub',
-    currentStadiumId: 'metlife',
-    preferences: {
-      theme: 'dark',
-      reducedMotion: false,
-      highContrast: false,
-      fontSize: 'normal',
-      accessibilityNeeds: ['none'],
-    },
-    zone: 'East Wing',
-    shift: '08:00 - 20:00',
-  },
-};
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const selectRole = useCallback((role: UserRole) => {
-    setUser(DEFAULT_USERS[role]);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
+      if (firebaseUser) {
+        try {
+          // Fetch extended user profile from Firestore
+          const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUser({
+              id: firebaseUser.uid,
+              name: userData.name || firebaseUser.email || 'Unknown User',
+              role: userData.role as UserRole || 'spectator',
+              currentLocation: userData.currentLocation,
+              currentStadiumId: userData.currentStadiumId,
+              preferences: userData.preferences || {
+                theme: 'dark',
+                reducedMotion: false,
+                highContrast: false,
+                fontSize: 'normal',
+                accessibilityNeeds: ['none'],
+              },
+              zone: userData.zone || null,
+              shift: userData.shift || null,
+            });
+          } else {
+            console.warn("User document not found in Firestore. Defaulting to spectator.");
+            // Default fallback if no doc is found
+            setUser({
+              id: firebaseUser.uid,
+              name: firebaseUser.email || 'Unknown',
+              role: 'spectator',
+              preferences: { theme: 'dark', reducedMotion: false, highContrast: false, fontSize: 'normal', accessibilityNeeds: ['none'] },
+              zone: null,
+              shift: null
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  const logout = useCallback(() => {
-    setUser(null);
-  }, []);
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   const role = user?.role ?? null;
   const roleConfig = role ? ROLE_CONFIGS[role] : null;
@@ -100,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         role,
         isAuthenticated: user !== null,
-        selectRole,
+        isLoading,
         logout,
         roleConfig,
       }}

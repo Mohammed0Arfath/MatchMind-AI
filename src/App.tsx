@@ -4,7 +4,7 @@ import { useAuth } from './app/providers/AuthProvider';
 import { ProtectedRoute } from './app/providers/ProtectedRoute';
 
 import { MainLayout } from './components/layout/MainLayout';
-import { RoleSelection } from './features/auth/RoleSelection';
+import { Login } from './features/auth/Login';
 import { OperationsDashboard } from './features/dashboard/OperationsDashboard';
 import { SecurityDashboard } from './features/dashboard/SecurityDashboard';
 import { SpectatorDashboard } from './features/dashboard/SpectatorDashboard';
@@ -38,11 +38,23 @@ function RoleDashboardRouter() {
 }
 
 export default function App() {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  // If no user/role selected, force them to the role selection gateway
+  if (isLoading) {
+    return (
+      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg-primary)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: 'var(--color-text-secondary)' }}>
+          <div className="spinner-loader" style={{ width: 32, height: 32, border: '3px solid rgba(99,102,241,0.2)', borderTopColor: 'var(--color-accent)', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          <div>Initializing MatchMind Secure Session...</div>
+        </div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
+
+  // If no user/role selected, force them to the login gateway
   if (!user) {
-    return <RoleSelection />;
+    return <Login />;
   }
 
   // The MainLayout contains the Sidebar, TopBar, and an <Outlet /> for nested routes
