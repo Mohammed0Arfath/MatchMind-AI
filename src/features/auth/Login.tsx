@@ -41,6 +41,21 @@ export function Login() {
     }
   };
 
+  const handleDemoLogin = async (demoEmail: string) => {
+    setError('');
+    setLoading(true);
+    setEmail(demoEmail);
+    setPassword('Password123!');
+    try {
+      await signInWithEmailAndPassword(auth, demoEmail, 'Password123!');
+    } catch (err: any) {
+      console.error(err);
+      setError(`Demo login failed. Make sure you've created ${demoEmail} in Firebase Auth and added a Firestore document for them!`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="login-page">
       <div className="login-page__content">
@@ -135,9 +150,44 @@ export function Login() {
         </form>
 
         <div className="login-page__footer">
-          <div className="login-page__status">
-            <span className="login-page__status-dot" />
-            Firebase Auth Active
+          <div style={{ marginTop: '1rem', width: '100%' }}>
+            <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.85rem', marginBottom: '0.5rem', textAlign: 'center' }}>
+              Quick Demo Logins
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+              <button 
+                className="login-form__submit" 
+                style={{ padding: '0.5rem', fontSize: '0.85rem', minHeight: '36px', background: 'rgba(99, 102, 241, 0.1)', color: '#818cf8', border: '1px solid rgba(99, 102, 241, 0.2)' }}
+                onClick={() => handleDemoLogin('admin@matchmind.com')}
+                disabled={loading}
+              >
+                Operations
+              </button>
+              <button 
+                className="login-form__submit" 
+                style={{ padding: '0.5rem', fontSize: '0.85rem', minHeight: '36px', background: 'rgba(239, 68, 68, 0.1)', color: '#f87171', border: '1px solid rgba(239, 68, 68, 0.2)' }}
+                onClick={() => handleDemoLogin('security@matchmind.com')}
+                disabled={loading}
+              >
+                Security
+              </button>
+              <button 
+                className="login-form__submit" 
+                style={{ padding: '0.5rem', fontSize: '0.85rem', minHeight: '36px', background: 'rgba(245, 158, 11, 0.1)', color: '#fbbf24', border: '1px solid rgba(245, 158, 11, 0.2)' }}
+                onClick={() => handleDemoLogin('staff@matchmind.com')}
+                disabled={loading}
+              >
+                Staff
+              </button>
+              <button 
+                className="login-form__submit" 
+                style={{ padding: '0.5rem', fontSize: '0.85rem', minHeight: '36px', background: 'rgba(34, 197, 94, 0.1)', color: '#4ade80', border: '1px solid rgba(34, 197, 94, 0.2)' }}
+                onClick={() => handleDemoLogin('fan@matchmind.com')}
+                disabled={loading}
+              >
+                Spectator
+              </button>
+            </div>
           </div>
         </div>
       </div>
