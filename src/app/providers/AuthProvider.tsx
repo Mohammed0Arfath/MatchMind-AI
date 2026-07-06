@@ -51,6 +51,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               id: firebaseUser.uid,
               name: firebaseUser.email || 'Unknown',
               role: 'spectator',
+              currentLocation: null,
+              currentStadiumId: null,
               preferences: { theme: 'dark', reducedMotion: false, highContrast: false, fontSize: 'normal', accessibilityNeeds: ['none'] },
               zone: null,
               shift: null
