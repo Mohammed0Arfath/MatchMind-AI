@@ -1,0 +1,277 @@
+.spectator-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: var(--content-max-width);
+}
+
+.spectator-dashboard__hero {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  border: 1px solid var(--color-border-primary);
+}
+
+.spectator-dashboard__hero-content {
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  position: relative;
+  z-index: 1;
+}
+
+.spectator-dashboard__hero-match {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  letter-spacing: var(--tracking-tight);
+}
+
+.spectator-dashboard__hero-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.spectator-dashboard__hero-countdown {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--color-accent-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.spectator-dashboard__hero-time {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+}
+
+.spectator-dashboard__hero-ticket {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.spectator-dashboard__grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: var(--space-6);
+}
+
+@media (max-width: 1024px) {
+  .spectator-dashboard__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.spectator-dashboard__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Nav Grid */
+.spectator-dashboard__nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-4);
+}
+
+.spectator-dashboard__nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-text-primary);
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+}
+
+.spectator-dashboard__nav-btn:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.spectator-dashboard__nav-icon {
+  color: var(--color-accent);
+}
+
+.spectator-dashboard__nav-wait {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  font-weight: var(--font-normal);
+}
+
+.spectator-dashboard__nav-wait--good {
+  color: var(--color-success-text);
+}
+
+/* Facilities */
+.spectator-dashboard__facilities {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.spectator-dashboard__facility {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3);
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-secondary);
+}
+
+.spectator-dashboard__facility-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.spectator-dashboard__facility-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.spectator-dashboard__facility-name {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.spectator-dashboard__facility-meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* Transport */
+.spectator-dashboard__transport {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.spectator-dashboard__transport-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.spectator-dashboard__transport-item:last-child {
+  border-bottom: none;
+}
+
+.spectator-dashboard__transport-mode {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.spectator-dashboard__transport-status {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+/* Schedule */
+.spectator-dashboard__schedule {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: relative;
+}
+
+.spectator-dashboard__schedule::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 48px;
+  width: 2px;
+  background: var(--color-border-secondary);
+}
+
+.spectator-dashboard__schedule-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  position: relative;
+  z-index: 1;
+}
+
+.spectator-dashboard__schedule-time {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+  width: 40px;
+  text-align: right;
+}
+
+.spectator-dashboard__schedule-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-medium);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  flex: 1;
+  position: relative;
+}
+
+.spectator-dashboard__schedule-desc::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -12px;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-border-primary);
+  border: 2px solid var(--color-bg-secondary);
+}
+
+.spectator-dashboard__schedule-item--active .spectator-dashboard__schedule-time {
+  color: var(--color-accent-text);
+  font-weight: var(--font-bold);
+}
+
+.spectator-dashboard__schedule-item--active .spectator-dashboard__schedule-desc {
+  background: var(--color-accent-muted);
+  color: var(--color-accent-text);
+}
+
+.spectator-dashboard__schedule-item--active .spectator-dashboard__schedule-desc::before {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-muted);
+}

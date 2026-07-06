@@ -1,0 +1,228 @@
+/* ============================================
+   MatchMind AI — Theme Tokens
+   Dark-first with light mode support
+   ============================================ */
+
+:root {
+  /* --- Spacing scale --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* --- Typography --- */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+
+  --text-xs: 0.6875rem;   /* 11px */
+  --text-sm: 0.8125rem;   /* 13px */
+  --text-base: 0.875rem;  /* 14px */
+  --text-md: 1rem;        /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.01em;
+
+  /* --- Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* --- Shadows --- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 8px 10px rgba(0, 0, 0, 0.04);
+
+  /* --- Transitions --- */
+  --transition-fast: 120ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
+
+  /* --- Z-index --- */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-tooltip: 600;
+  --z-toast: 700;
+  --z-skip-nav: 10000;
+
+  /* --- Layout --- */
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 64px;
+  --topbar-height: 52px;
+  --content-max-width: 1440px;
+}
+
+/* ========================
+   DARK THEME (default)
+   ======================== */
+[data-theme='dark'] {
+  --color-bg-primary: #0a0a0f;
+  --color-bg-secondary: #111118;
+  --color-bg-tertiary: #18181f;
+  --color-bg-elevated: #1e1e26;
+  --color-bg-hover: #24242e;
+  --color-bg-active: #2a2a36;
+  --color-bg-overlay: rgba(0, 0, 0, 0.6);
+
+  --color-text-primary: #ededf0;
+  --color-text-secondary: #a0a0ab;
+  --color-text-tertiary: #6b6b76;
+  --color-text-disabled: #4a4a54;
+  --color-text-inverse: #0a0a0f;
+
+  --color-border-primary: #2a2a36;
+  --color-border-secondary: #1e1e26;
+  --color-border-focus: #6366f1;
+
+  /* Accent — Indigo */
+  --color-accent: #6366f1;
+  --color-accent-hover: #7577f5;
+  --color-accent-muted: rgba(99, 102, 241, 0.15);
+  --color-accent-text: #a5b4fc;
+
+  /* Semantic */
+  --color-success: #22c55e;
+  --color-success-muted: rgba(34, 197, 94, 0.15);
+  --color-success-text: #86efac;
+
+  --color-warning: #f59e0b;
+  --color-warning-muted: rgba(245, 158, 11, 0.15);
+  --color-warning-text: #fcd34d;
+
+  --color-danger: #ef4444;
+  --color-danger-muted: rgba(239, 68, 68, 0.15);
+  --color-danger-text: #fca5a5;
+
+  --color-info: #3b82f6;
+  --color-info-muted: rgba(59, 130, 246, 0.15);
+  --color-info-text: #93c5fd;
+
+  /* Charts */
+  --color-chart-1: #6366f1;
+  --color-chart-2: #22c55e;
+  --color-chart-3: #f59e0b;
+  --color-chart-4: #ef4444;
+  --color-chart-5: #3b82f6;
+  --color-chart-6: #ec4899;
+  --color-chart-7: #14b8a6;
+  --color-chart-8: #f97316;
+
+  /* Congestion levels */
+  --color-congestion-low: #22c55e;
+  --color-congestion-moderate: #f59e0b;
+  --color-congestion-high: #ef4444;
+  --color-congestion-critical: #dc2626;
+
+  /* Shadows (dark specific) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================
+   LIGHT THEME
+   ======================== */
+[data-theme='light'] {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f8f8fa;
+  --color-bg-tertiary: #f0f0f3;
+  --color-bg-elevated: #ffffff;
+  --color-bg-hover: #f0f0f3;
+  --color-bg-active: #e8e8ec;
+  --color-bg-overlay: rgba(0, 0, 0, 0.4);
+
+  --color-text-primary: #111118;
+  --color-text-secondary: #6b6b76;
+  --color-text-tertiary: #a0a0ab;
+  --color-text-disabled: #c8c8d0;
+  --color-text-inverse: #ffffff;
+
+  --color-border-primary: #e2e2e8;
+  --color-border-secondary: #f0f0f3;
+  --color-border-focus: #6366f1;
+
+  --color-accent: #6366f1;
+  --color-accent-hover: #5558e6;
+  --color-accent-muted: rgba(99, 102, 241, 0.1);
+  --color-accent-text: #4f46e5;
+
+  --color-success: #16a34a;
+  --color-success-muted: rgba(22, 163, 74, 0.1);
+  --color-success-text: #15803d;
+
+  --color-warning: #d97706;
+  --color-warning-muted: rgba(217, 119, 6, 0.1);
+  --color-warning-text: #b45309;
+
+  --color-danger: #dc2626;
+  --color-danger-muted: rgba(220, 38, 38, 0.1);
+  --color-danger-text: #b91c1c;
+
+  --color-info: #2563eb;
+  --color-info-muted: rgba(37, 99, 235, 0.1);
+  --color-info-text: #1d4ed8;
+
+  --color-chart-1: #6366f1;
+  --color-chart-2: #16a34a;
+  --color-chart-3: #d97706;
+  --color-chart-4: #dc2626;
+  --color-chart-5: #2563eb;
+  --color-chart-6: #db2777;
+  --color-chart-7: #0d9488;
+  --color-chart-8: #ea580c;
+
+  --color-congestion-low: #16a34a;
+  --color-congestion-moderate: #d97706;
+  --color-congestion-high: #dc2626;
+  --color-congestion-critical: #991b1b;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.06), 0 4px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* ========================
+   HIGH CONTRAST MODE
+   ======================== */
+@media (prefers-contrast: high) {
+  [data-theme='dark'] {
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #d0d0d8;
+    --color-border-primary: #4a4a54;
+  }
+
+  [data-theme='light'] {
+    --color-text-primary: #000000;
+    --color-text-secondary: #333340;
+    --color-border-primary: #999;
+  }
+}

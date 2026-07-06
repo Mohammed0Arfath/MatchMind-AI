@@ -1,0 +1,112 @@
+.crowd-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: var(--content-max-width);
+}
+
+.crowd-dashboard__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.crowd-dashboard__title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  letter-spacing: var(--tracking-tight);
+}
+
+.crowd-dashboard__subtitle {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+}
+
+.crowd-dashboard__actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.crowd-dashboard__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+.crowd-dashboard__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.crowd-dashboard__span-2 {
+  grid-column: span 2;
+}
+
+@media (max-width: 1024px) {
+  .crowd-dashboard__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .crowd-dashboard__span-2 {
+    grid-column: span 1;
+  }
+}
+
+.crowd-dashboard__chart-container {
+  width: 100%;
+  margin-top: var(--space-4);
+}
+
+/* Customized Recharts tooltips */
+.recharts-default-tooltip {
+  background-color: var(--color-bg-secondary) !important;
+  border-color: var(--color-border-primary) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.recharts-tooltip-item {
+  color: var(--color-text-primary) !important;
+}
+
+.recharts-tooltip-label {
+  color: var(--color-text-tertiary) !important;
+  margin-bottom: var(--space-2) !important;
+}
+
+.crowd-dashboard__alerts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.crowd-dashboard__alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-md);
+}
+
+.crowd-dashboard__alert-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.crowd-dashboard__alert-zone {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.crowd-dashboard__alert-trend {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+}
