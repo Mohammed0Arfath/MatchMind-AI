@@ -3,13 +3,20 @@ import { Card, CardHeader } from '../../components/ui/Card';
 import { MetricCard } from './components/MetricCard';
 import { AlertsFeed } from './components/AlertsFeed';
 import { Badge } from '../../components/ui/Badge';
-import { getActiveIncidents } from '../../data/incidents';
-import { defaultStadium } from '../../data/stadiums';
+import { useIncidents } from '../../hooks/useIncidents';
+import { useStadium } from '../../hooks/useStadium';
+import { Spinner } from '../../components/ui/Spinner';
 import { Shield, AlertTriangle, Eye, Video, Radio, Activity, Map } from 'lucide-react';
 import './SecurityDashboard.css';
 
 export function SecurityDashboard() {
-  const activeIncidents = getActiveIncidents();
+  const { incidents: activeIncidents, loading: incidentsLoading } = useIncidents(true);
+  const { stadium, loading: stadiumLoading } = useStadium();
+  
+  if (incidentsLoading || stadiumLoading || !stadium) {
+    return <Spinner />;
+  }
+
   const highPriority = activeIncidents.filter(i => i.priority === 'high' || i.priority === 'critical');
   
   return (
@@ -110,7 +117,7 @@ export function SecurityDashboard() {
           <Card padding="md">
             <CardHeader title="Screening Throughput" subtitle="Metal detector and bag check status" icon={<Map size={16} />} />
             <div className="security-dashboard__screening">
-              {defaultStadium.gates.filter(g => g.type === 'general').map(gate => (
+              {stadium.gates.filter(g => g.type === 'general').map(gate => (
                 <div key={gate.id} className="security-dashboard__screening-item">
                   <div className="security-dashboard__screening-header">
                     <span>{gate.name} Checkpoint</span>

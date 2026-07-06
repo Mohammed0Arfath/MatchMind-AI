@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, CardHeader } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
-import { defaultStadium } from '../../data/stadiums';
 import { BrainCircuit, AlertTriangle, ArrowRight, Zap, Target, History } from 'lucide-react';
 import './PredictionsDashboard.css';
 

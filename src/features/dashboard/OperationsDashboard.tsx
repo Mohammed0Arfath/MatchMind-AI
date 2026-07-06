@@ -5,9 +5,10 @@ import { AlertsFeed } from './components/AlertsFeed';
 import { Card, CardHeader } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { StatusIndicator } from '../../components/ui/StatusIndicator';
-import { defaultStadium } from '../../data/stadiums';
-import { currentCrowdMetrics, queueMetrics } from '../../data/crowds';
-import { getLiveMatches, getUpcomingMatches } from '../../data/matches';
+import { useStadium } from '../../hooks/useStadium';
+import { useCrowdMetrics } from '../../hooks/useCrowdMetrics';
+import { useMatches } from '../../hooks/useMatches';
+import { Spinner } from '../../components/ui/Spinner';
 import { formatNumber, formatCountdown, formatTime, getCongestionColor } from '../../utils/format';
 import { Users, DoorOpen, Clock, AlertTriangle, UserCheck, Activity, Thermometer, Wind } from 'lucide-react';
 import './OperationsDashboard.css';
@@ -15,16 +16,22 @@ import './OperationsDashboard.css';
 export function OperationsDashboard() {
   const { user } = useAuth();
   const [now, setNow] = useState(Date.now());
-  const stadium = defaultStadium;
-  const crowd = currentCrowdMetrics;
-  const liveMatches = getLiveMatches();
-  const upcomingMatches = getUpcomingMatches();
+  const { stadium, loading: stadiumLoading } = useStadium();
+  const { metrics: crowd, loading: crowdLoading } = useCrowdMetrics();
+  const { matches: liveMatches, loading: liveLoading } = useMatches('live');
+  const { matches: upcomingMatches, loading: upcomingLoading } = useMatches('upcoming');
+
+  const isLoading = stadiumLoading || crowdLoading || liveLoading || upcomingLoading;
 
   // Update clock every second for countdown
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  if (isLoading || !stadium || !crowd) {
+    return <Spinner />;
+  }
 
   return (
     <div className="ops-dashboard">

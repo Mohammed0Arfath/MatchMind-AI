@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Card, CardHeader } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
-import { defaultStadium } from '../../data/stadiums';
+import { useStadium } from '../../hooks/useStadium';
+import { Spinner } from '../../components/ui/Spinner';
 import { getCongestionColor, formatDuration } from '../../utils/format';
 import type { Gate, Facility, FacilityType } from '../../types';
 import { MapPin, DoorOpen, Coffee, Heart, Info, ShoppingBag, Droplets, Accessibility, Eye } from 'lucide-react';
@@ -19,17 +20,21 @@ const FACILITY_ICONS: Partial<Record<FacilityType, React.ReactNode>> = {
 type MapLayer = 'gates' | 'food' | 'restrooms' | 'medical' | 'all';
 
 export function StadiumMap() {
-  const stadium = defaultStadium;
+  const { stadium, loading } = useStadium();
   const [activeLayer, setActiveLayer] = useState<MapLayer>('all');
   const [selectedItem, setSelectedItem] = useState<Gate | Facility | null>(null);
 
-  const filteredFacilities = stadium.facilities.filter((f) => {
+  const filteredFacilities = stadium?.facilities.filter((f) => {
     if (activeLayer === 'all') return true;
     if (activeLayer === 'food') return f.type === 'food_court';
     if (activeLayer === 'restrooms') return f.type === 'restroom';
     if (activeLayer === 'medical') return f.type === 'first_aid';
     return false;
-  });
+  }) || [];
+
+  if (loading || !stadium) {
+    return <Spinner />;
+  }
 
   return (
     <div className="stadium-map-page">

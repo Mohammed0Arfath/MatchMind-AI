@@ -3,7 +3,8 @@ import { Card, CardHeader } from '../../components/ui/Card';
 import { MetricCard } from '../dashboard/components/MetricCard';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
-import { currentCrowdMetrics, crowdHistory } from '../../data/crowds';
+import { useCrowdMetrics } from '../../hooks/useCrowdMetrics';
+import { Spinner } from '../../components/ui/Spinner';
 import { formatNumber, formatTime } from '../../utils/format';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
@@ -13,8 +14,14 @@ import { Users, Activity, TrendingUp, DoorOpen, Clock, AlertTriangle } from 'luc
 import './CrowdDashboard.css';
 
 export function CrowdDashboard() {
-  const [data, setData] = useState(crowdHistory);
-  const current = currentCrowdMetrics;
+  const { metrics, history, loading } = useCrowdMetrics();
+  const [data, setData] = useState(history);
+
+  useEffect(() => {
+    if (history.length > 0) {
+      setData(history);
+    }
+  }, [history]);
 
   // Real-time simulation (purely visual for the demo)
   useEffect(() => {
@@ -33,7 +40,11 @@ export function CrowdDashboard() {
       });
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [history.length]);
+
+  if (loading || !metrics || data.length === 0) {
+    return <Spinner />;
+  }
 
   const chartData = data.map(d => ({
     time: formatTime(d.timestamp),
@@ -57,21 +68,21 @@ export function CrowdDashboard() {
       <div className="crowd-dashboard__metrics">
         <MetricCard
           label="Current Occupancy"
-          value={formatNumber(current.totalOccupancy)}
+          value={formatNumber(metrics.totalOccupancy)}
           change={1.2}
           icon={<Users size={15} />}
           variant="default"
         />
         <MetricCard
           label="Fill Rate"
-          value={`${current.entryRate} / min`}
+          value={`${metrics.entryRate} / min`}
           change={-5.4}
           icon={<TrendingUp size={15} />}
           variant="warning"
         />
         <MetricCard
           label="Avg Queue Time"
-          value={`${current.avgQueueMinutes.toFixed(1)} min`}
+          value={`${metrics.avgQueueMinutes.toFixed(1)} min`}
           change={8.3}
           icon={<Clock size={15} />}
           variant="danger"
@@ -129,7 +140,7 @@ export function CrowdDashboard() {
         <Card padding="md">
           <CardHeader title="Zone Density Alerts" subtitle="Areas approaching critical capacity" icon={<AlertTriangle size={16} />} />
           <div className="crowd-dashboard__alerts">
-            {current.densityByZone
+            {metrics.densityByZone
               .filter(z => z.density > 0.7)
               .sort((a, b) => b.density - a.density)
               .map(zone => (

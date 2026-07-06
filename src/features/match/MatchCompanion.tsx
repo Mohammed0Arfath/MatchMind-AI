@@ -3,13 +3,14 @@ import { Card, CardHeader } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { StatusIndicator } from '../../components/ui/StatusIndicator';
-import { getLiveMatches } from '../../data/matches';
+import { useMatches } from '../../hooks/useMatches';
+import { Spinner } from '../../components/ui/Spinner';
 import { formatTime } from '../../utils/format';
 import { Clock, Flag, Trophy, Shield, Activity, Calendar } from 'lucide-react';
 import './MatchCompanion.css';
 
 export function MatchCompanion() {
-  const liveMatches = getLiveMatches();
+  const { matches: liveMatches, loading } = useMatches('live');
   const match = liveMatches[0]; // Assume first live match for companion view
   const [now, setNow] = useState(Date.now());
 
@@ -17,6 +18,10 @@ export function MatchCompanion() {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   if (!match) {
     return (

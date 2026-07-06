@@ -4,7 +4,6 @@ import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/Select';
-import { defaultStadium } from '../../data/stadiums';
 import { Map, Navigation, MapPin, Accessibility, ArrowRight, Zap, Target } from 'lucide-react';
 import './NavigationView.css';
 

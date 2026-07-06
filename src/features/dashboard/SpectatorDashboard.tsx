@@ -2,18 +2,26 @@ import React from 'react';
 import { Card, CardHeader } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
-import { defaultStadium } from '../../data/stadiums';
-import { getUpcomingMatches } from '../../data/matches';
+import { useStadium } from '../../hooks/useStadium';
+import { useMatches } from '../../hooks/useMatches';
+import { Spinner } from '../../components/ui/Spinner';
 import { formatCountdown, formatTime } from '../../utils/format';
 import { MapPin, Utensils, Coffee, Droplets, Navigation, Ticket, Calendar, Info } from 'lucide-react';
 import './SpectatorDashboard.css';
 
 export function SpectatorDashboard() {
-  const nextMatch = getUpcomingMatches()[0];
+  const { matches: upcomingMatches, loading: matchesLoading } = useMatches('upcoming');
+  const { stadium, loading: stadiumLoading } = useStadium();
+  
+  if (matchesLoading || stadiumLoading || !stadium) {
+    return <Spinner />;
+  }
+
+  const nextMatch = upcomingMatches[0];
   const userSection = "Section 114"; // Mock user location
   const userGate = "Gate B";
 
-  const nearbyFacilities = defaultStadium.facilities
+  const nearbyFacilities = stadium.facilities
     .filter(f => f.nearestGate.toLowerCase().includes(userGate?.toLowerCase().split(' ')[1] || '') || f.nearestGate === 'gate-b')
     .slice(0, 4);
 

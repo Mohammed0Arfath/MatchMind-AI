@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Card, CardHeader } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
-import { incidents, getActiveIncidents } from '../../data/incidents';
+import { useIncidents } from '../../hooks/useIncidents';
+import { Spinner } from '../../components/ui/Spinner';
 import { INCIDENT_TYPE_LABELS } from '../../types';
 import { formatRelativeTime, formatDuration } from '../../utils/format';
 import type { Incident, IncidentStatus } from '../../types';
@@ -28,13 +29,19 @@ export function IncidentPanel() {
   const [filter, setFilter] = useState<'all' | 'active' | 'resolved'>('active');
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const filtered = incidents.filter((inc) => {
+  const { incidents: allIncidents, loading } = useIncidents(false);
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  const filtered = allIncidents.filter((inc) => {
     if (filter === 'active') return inc.status !== 'resolved';
     if (filter === 'resolved') return inc.status === 'resolved';
     return true;
   });
 
-  const activeCount = getActiveIncidents().length;
+  const activeCount = allIncidents.filter(inc => inc.status !== 'resolved').length;
 
   return (
     <div className="incidents-page">
@@ -53,11 +60,11 @@ export function IncidentPanel() {
           <span className="incidents-page__stat-label">Active</span>
         </div>
         <div className="incidents-page__stat">
-          <span className="incidents-page__stat-value">{incidents.filter(i => i.priority === 'high' || i.priority === 'critical').length}</span>
+          <span className="incidents-page__stat-value">{allIncidents.filter(i => i.priority === 'high' || i.priority === 'critical').length}</span>
           <span className="incidents-page__stat-label">High Priority</span>
         </div>
         <div className="incidents-page__stat">
-          <span className="incidents-page__stat-value incidents-page__stat-value--success">{incidents.filter(i => i.status === 'resolved').length}</span>
+          <span className="incidents-page__stat-value incidents-page__stat-value--success">{allIncidents.filter(i => i.status === 'resolved').length}</span>
           <span className="incidents-page__stat-label">Resolved</span>
         </div>
         <div className="incidents-page__stat">
