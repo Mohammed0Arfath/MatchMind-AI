@@ -91,6 +91,29 @@ npm install -D jest-axe @types/jest-axe
 npm run test
 ```
 
+### Test Results
+
+The testing suite completes successfully across all component validations, integrations, and accessibility checks:
+
+```text
+ ✓ src/tests/integration/accessibility.test.tsx (2) 556ms
+ ✓ src/tests/integration/assistant.test.tsx (2)
+ ✓ src/tests/integration/dashboard.test.tsx (2)
+ ✓ src/tests/integration/incidents.test.tsx (2)
+
+ Test Files  4 passed (4)
+      Tests  8 passed (8)
+```
+
+To run tests with code coverage (using v8):
+```bash
+npm run test --coverage
+```
+
+### Coverage Highlights
+- **Features Tested**: AI Assistant engine logic, Dashboard rendering, Incident management filtering, and Role-based gateway accessibility.
+- **Coverage Status**: Baseline integration and accessibility pipelines passing securely. Core components and logic engines verified.
+
 ## License
 
 This project is intended as a demonstration of a highly polished, dashboard-driven web application.
