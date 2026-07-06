@@ -53,7 +53,7 @@ export function StadiumMap() {
 
       <div className="stadium-map-page__grid">
         <Card padding="none" className="stadium-map-page__map-card">
-          <div className="stadium-svg-container" role="img" aria-label="Interactive stadium map showing gates, facilities, and congestion levels">
+          <div className="stadium-svg-container" role="group" aria-label="Interactive stadium map showing gates, facilities, and congestion levels">
             <svg viewBox="0 0 100 100" className="stadium-svg">
               {/* Stadium outline */}
               <ellipse cx="50" cy="50" rx="44" ry="40" fill="var(--color-bg-tertiary)" stroke="var(--color-border-primary)" strokeWidth="0.5" />
@@ -73,7 +73,20 @@ export function StadiumMap() {
 
               {/* Gates */}
               {(activeLayer === 'all' || activeLayer === 'gates') && stadium.gates.map((gate) => (
-                <g key={gate.id} className="stadium-svg__gate" onClick={() => setSelectedItem(gate)}>
+                <g 
+                  key={gate.id} 
+                  className="stadium-svg__gate" 
+                  onClick={() => setSelectedItem(gate)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedItem(gate);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Gate ${gate.name}, ${gate.congestionLevel} congestion`}
+                >
                   <circle
                     cx={gate.position.x}
                     cy={gate.position.y}
@@ -105,7 +118,20 @@ export function StadiumMap() {
 
               {/* Facilities */}
               {filteredFacilities.map((facility) => (
-                <g key={facility.id} className="stadium-svg__facility" onClick={() => setSelectedItem(facility)}>
+                <g 
+                  key={facility.id} 
+                  className="stadium-svg__facility" 
+                  onClick={() => setSelectedItem(facility)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedItem(facility);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${facility.name} (${facility.type.replace('_', ' ')}), ${facility.status}`}
+                >
                   <rect
                     x={facility.position.x - 1.5}
                     y={facility.position.y - 1.5}

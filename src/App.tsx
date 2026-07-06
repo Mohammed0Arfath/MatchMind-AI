@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './app/providers/AuthProvider';
+import { ProtectedRoute } from './app/providers/ProtectedRoute';
 
 import { MainLayout } from './components/layout/MainLayout';
 import { RoleSelection } from './features/auth/RoleSelection';
@@ -54,9 +55,25 @@ export default function App() {
         {/* Feature routes */}
         <Route path="dashboard" element={<RoleDashboardRouter />} />
         <Route path="stadium" element={<StadiumMap />} />
-        <Route path="crowd" element={<CrowdDashboard />} />
-        <Route path="predictions" element={<PredictionsDashboard />} />
-        <Route path="incidents" element={<IncidentPanel />} />
+        
+        <Route path="crowd" element={
+          <ProtectedRoute allowedRoles={['operations', 'security']}>
+            <CrowdDashboard />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="predictions" element={
+          <ProtectedRoute allowedRoles={['operations']}>
+            <PredictionsDashboard />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="incidents" element={
+          <ProtectedRoute allowedRoles={['operations', 'security', 'staff']}>
+            <IncidentPanel />
+          </ProtectedRoute>
+        } />
+        
         <Route path="navigation" element={<NavigationView />} />
         <Route path="match" element={<MatchCompanion />} />
         <Route path="assistant" element={<AssistantPanel />} />

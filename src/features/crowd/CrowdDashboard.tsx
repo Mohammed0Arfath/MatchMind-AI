@@ -21,6 +21,7 @@ export function CrowdDashboard() {
     const timer = setInterval(() => {
       setData(prev => {
         const last = prev[prev.length - 1];
+        if (!last) return prev;
         const newEntry = {
           ...last,
           timestamp: last.timestamp + 5 * 60000,

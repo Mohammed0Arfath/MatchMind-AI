@@ -5,6 +5,7 @@ export type MatchStatus = 'scheduled' | 'live' | 'halftime' | 'completed' | 'pos
 export type GroupLetter = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H';
 
 export interface Team {
+  id?: string;
   code: string;
   name: string;
   flag: string; // emoji flag
@@ -26,6 +27,18 @@ export interface Match {
   homeScore: number | null;
   awayScore: number | null;
   attendance: number | null;
+  currentMinute?: number;
+  venue?: string;
+  events?: MatchEvent[];
+}
+
+export interface MatchEvent {
+  id: string;
+  minute: number;
+  type: 'goal' | 'yellow_card' | 'red_card' | 'substitution' | 'var_review';
+  player: string;
+  teamId: string;
+  assist?: string;
 }
 
 export interface MatchDay {

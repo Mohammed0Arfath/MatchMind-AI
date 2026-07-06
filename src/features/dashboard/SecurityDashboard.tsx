@@ -110,7 +110,7 @@ export function SecurityDashboard() {
           <Card padding="md">
             <CardHeader title="Screening Throughput" subtitle="Metal detector and bag check status" icon={<Map size={16} />} />
             <div className="security-dashboard__screening">
-              {defaultStadium.gates.filter(g => g.type === 'main').map(gate => (
+              {defaultStadium.gates.filter(g => g.type === 'general').map(gate => (
                 <div key={gate.id} className="security-dashboard__screening-item">
                   <div className="security-dashboard__screening-header">
                     <span>{gate.name} Checkpoint</span>

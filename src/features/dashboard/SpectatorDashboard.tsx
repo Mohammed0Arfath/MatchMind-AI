@@ -14,7 +14,7 @@ export function SpectatorDashboard() {
   const userGate = "Gate B";
 
   const nearbyFacilities = defaultStadium.facilities
-    .filter(f => f.nearestGate.toLowerCase().includes(userGate.toLowerCase().split(' ')[1]) || f.nearestGate === 'gate-b')
+    .filter(f => f.nearestGate.toLowerCase().includes(userGate?.toLowerCase().split(' ')[1] || '') || f.nearestGate === 'gate-b')
     .slice(0, 4);
 
   return (
@@ -23,12 +23,12 @@ export function SpectatorDashboard() {
       <div className="spectator-dashboard__hero">
         <div className="spectator-dashboard__hero-content">
           <Badge variant="accent" size="sm">Your Next Match</Badge>
-          <h2 className="spectator-dashboard__hero-match">
-            {nextMatch.homeTeam.name} vs {nextMatch.awayTeam.name}
+          <h2 className="spectator-dashboard__hero-title">
+            {nextMatch?.homeTeam.name} vs {nextMatch?.awayTeam.name}
           </h2>
           <div className="spectator-dashboard__hero-meta">
-            <span className="spectator-dashboard__hero-countdown">{formatCountdown(nextMatch.datetime)}</span>
-            <span className="spectator-dashboard__hero-time">Kickoff at {formatTime(nextMatch.datetime)}</span>
+            <span className="spectator-dashboard__hero-countdown">{nextMatch ? formatCountdown(nextMatch.datetime) : ''}</span>
+            <span className="spectator-dashboard__hero-time">Kickoff at {nextMatch ? formatTime(nextMatch.datetime) : ''}</span>
           </div>
           <div className="spectator-dashboard__hero-ticket">
             <Ticket size={16} />

@@ -64,6 +64,7 @@ export function NavigationView() {
               <div className="navigation-view__field">
                 <label>Routing Preference</label>
                 <Select 
+                  aria-label="Routing Preference"
                   value={routingPref} 
                   onChange={e => setRoutingPref(e.target.value)}
                   options={[
